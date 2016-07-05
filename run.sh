@@ -28,7 +28,7 @@ if [ -n "$ACTION" ]; then
   export ACTION="build"
 fi
 
-if [ -n "$WERCKER_DEPLOYTARGET_NAME"]; then
+if [ -n "$WERCKER_DEPLOYTARGET_NAME" ]; then
     export ACTION="$ACTION ($WERCKER_DEPLOYTARGET_NAME)"
 fi
 
