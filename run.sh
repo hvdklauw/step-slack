@@ -21,15 +21,15 @@ if [ -z "$WERCKER_SLACK_NOTIFIER_ICON_URL" ]; then
   export WERCKER_SLACK_NOTIFIER_ICON_URL="https://secure.gravatar.com/avatar/a08fc43441db4c2df2cef96e0cc8c045?s=140"
 fi
 
+export ACTION_URL=$WERCKER_RUN_URL
+
 # check if this event is a build or deploy
-if [ -n "$DEPLOY" ]; then
-  # its a deploy!
-  export ACTION="deploy"
-  export ACTION_URL=$WERCKER_DEPLOY_URL
-else
-  # its a build!
+if [ -n "$ACTION" ]; then
   export ACTION="build"
-  export ACTION_URL=$WERCKER_BUILD_URL
+fi
+
+if [ -n "$WERCKER_DEPLOYTARGET_NAME"]; then
+    export ACTION="$ACTION ($WERCKER_DEPLOYTARGET_NAME)"
 fi
 
 export MESSAGE="<$ACTION_URL|$ACTION> for $WERCKER_APPLICATION_NAME by $WERCKER_STARTED_BY has $WERCKER_RESULT on branch $WERCKER_GIT_BRANCH"
@@ -46,7 +46,7 @@ fi
 json="{"
 
 # channels are optional, dont send one if it wasnt specified
-if [ -n "$WERCKER_SLACK_NOTIFIER_CHANNEL" ]; then 
+if [ -n "$WERCKER_SLACK_NOTIFIER_CHANNEL" ]; then
     json=$json"\"channel\": \"#$WERCKER_SLACK_NOTIFIER_CHANNEL\","
 fi
 
