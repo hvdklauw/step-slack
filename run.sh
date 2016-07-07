@@ -24,12 +24,12 @@ fi
 export ACTION_URL=$WERCKER_RUN_URL
 
 # check if this event is a build or deploy
-if [ -n "$ACTION" ]; then
-  export ACTION="build"
+if [ -n "$WERCKER_SLACK_NOTIFIER_ACTION" ]; then
+  export WERCKER_SLACK_NOTIFIER_ACTION="build"
 fi
 
 if [ -n "$WERCKER_DEPLOYTARGET_NAME" ]; then
-    export ACTION="$ACTION ($WERCKER_DEPLOYTARGET_NAME)"
+    export ACTION="$WERCKER_SLACK_NOTIFIER_ACTION ($WERCKER_DEPLOYTARGET_NAME)"
 fi
 
 export MESSAGE="<$ACTION_URL|$ACTION> for $WERCKER_APPLICATION_NAME by $WERCKER_STARTED_BY has $WERCKER_RESULT on branch $WERCKER_GIT_BRANCH"
